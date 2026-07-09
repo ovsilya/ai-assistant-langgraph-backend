@@ -1,0 +1,107 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: ai-assistant
+  name: ai-assistant
+  namespace: default
+spec:
+  replicas: {{ k8s_replicas }}
+  selector:
+    matchLabels:
+      app: ai-assistant
+  revisionHistoryLimit: 5
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: ai-assistant
+    spec:
+      containers:
+        - name: ai-assistant
+          image: {{ global_registry_host }}/ai-assistant:{{ tag }}
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "{{ k8s_cpu_requests }}"
+              memory: "{{ k8s_memory_requests }}"
+          env:
+            - name: APP_NAME
+              value: "ai-assistant"
+            - name: APP_VERSION
+              value: "{{ tag }}"
+            - name: AWS_DEFAULT_REGION
+              value: "{{ aws_default_region }}"
+            - name: CONCORDE_BASE_URL
+              value: "{{ concorde_base_url }}"
+            - name: CONCORDE_AI_SEARCH_BASE_URL
+              value: "{{ concorde_ai_search_base_url }}"
+            - name: DATADOG_ENABLED
+              value: "{{ datadog_enabled }}"
+            - name: DATADOG_HOST
+              value: "{{ global_datadog_host }}"
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            - name: DD_DOGSTATSD_DISABLE
+              value: "{{ disable_datadog }}"
+            - name: DD_LOGS_INJECTION
+              value: "true"
+            - name: DD_SERVICE
+              value: "ai-assistant"
+            - name: DD_VERSION
+              value: "{{ tag }}"
+            - name: DYNAMODB_ENDPOINT_URL
+              value: "{{ dynamodb_endpoint_url }}"
+            - name: DYNAMODB_CONVERSATIONS_TABLE_NAME
+              value: "{{ dynamodb_conversations_table }}"
+            - name: DYNAMODB_MESSAGES_TABLE_NAME
+              value: "{{ dynamodb_messages_table }}"
+            - name: DYNAMODB_DELETION_JOBS_TABLE_NAME
+              value: "{{ dynamodb_deletion_jobs_table }}"
+            - name: DYNAMODB_STATUS_TABLE_NAME
+              value: "{{ dynamodb_status_table }}"
+            - name: DYNAMODB_READ_CAPACITY_UNITS
+              value: "{{ dynamodb_read_capacity_units }}"
+            - name: DYNAMODB_WRITE_CAPACITY_UNITS
+              value: "{{ dynamodb_write_capacity_units }}"
+            - name: ENVIRONMENT
+              value: "{{ env }}"
+            - name: GUNICORN_CMD_ARGS
+              value: "{{ gunicorn_cmd_args }} --statsd-host {{ global_datadog_host }}:8125"
+            - name: REDIS_DB
+              value: "{{ redis_db }}"
+            - name: REDIS_HOST
+              value: "{{ redis_host }}"
+            - name: REDIS_PORT
+              value: "{{ redis_port }}"
+            - name: ROLE
+              value: "api"
+            - name: SENTRY_DSN
+              value: "{{ sentry_dsn }}"
+            - name: SENTRY_ENVIRONMENT
+              value: "{{ env }}"
+            - name: SENTRY_SAMPLE_RATE
+              value: "{{ sentry_sample_rate }}"
+            - name: TTL_DAYS
+              value: "{{ ttl_days }}"
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 5
+      restartPolicy: Always
+      serviceAccountName: ai-assistant-service
+      terminationGracePeriodSeconds: 15
+      dnsPolicy: ClusterFirst

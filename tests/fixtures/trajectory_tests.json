@@ -1,0 +1,28 @@
+[
+  {
+    "name": "small_talk",
+    "expected_intent": "small_talk",
+    "message": "Hello! How are you today?",
+    "url": "https://www.meridian.example.com/"
+  },
+  {
+    "name": "blocked_medical",
+    "expected_blocked": true,
+    "message": "What prescription drug should I take for chest pain? Give medical diagnosis.",
+    "url": "https://www.meridian.example.com/"
+  },
+  {
+    "name": "off_topic",
+    "expected_intent": "off_topic",
+    "message": "Write me Python code to scrape websites",
+    "url": "https://www.meridian.example.com/"
+  },
+  {
+    "name": "content_question",
+    "expected_intent": "content_question",
+    "message": "What has Meridian written recently about electric cars and luxury EVs? Summarize the key stories and recommend which articles I should read first.",
+    "url": "https://www.meridian.example.com/lifestyle/cars/a61180858/lucid-gravity-review/",
+    "content_id": "00000000-0000-0000-0000-000000000002",
+    "note": "Article page with content_id — query_index (topic search) + get_related (current article) in parallel"
+  }
+]

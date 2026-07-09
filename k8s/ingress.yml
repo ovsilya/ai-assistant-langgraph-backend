@@ -1,0 +1,21 @@
+# Generic ingress manifest. The production deployment used an internal
+# ingress controller and templated host rules (removed from this portfolio copy).
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ai-assistant
+  namespace: default
+  labels:
+    app: ai-assistant
+spec:
+  rules:
+    - host: ai-assistant.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ai-assistant
+                port:
+                  number: 80

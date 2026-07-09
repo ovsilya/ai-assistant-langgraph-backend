@@ -1,0 +1,99 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: ai-assistant-deletion-worker
+  name: ai-assistant-deletion-worker
+  namespace: default
+spec:
+  # Multiple replicas are safe: jobs are leased, so only one worker advances a job.
+  replicas: {{ k8s_deletion_worker_replicas }}
+  selector:
+    matchLabels:
+      app: ai-assistant-deletion-worker
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: ai-assistant-deletion-worker
+    spec:
+      containers:
+        - name: ai-assistant-deletion-worker
+          image: {{ global_registry_host }}/ai-assistant:{{ tag }}
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "{{ k8s_deletion_worker_cpu_requests }}"
+              memory: "{{ k8s_deletion_worker_memory_requests }}"
+          env:
+            - name: APP_NAME
+              value: "ai-assistant-deletion-worker"
+            - name: APP_VERSION
+              value: "{{ tag }}"
+            - name: AWS_DEFAULT_REGION
+              value: "{{ aws_default_region }}"
+            - name: DATADOG_ENABLED
+              value: "{{ datadog_enabled }}"
+            - name: DATADOG_HOST
+              value: "{{ global_datadog_host }}"
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            - name: DD_DOGSTATSD_DISABLE
+              value: "{{ disable_datadog }}"
+            - name: DD_LOGS_INJECTION
+              value: "true"
+            - name: DD_SERVICE
+              value: "ai-assistant-deletion-worker"
+            - name: DD_VERSION
+              value: "{{ tag }}"
+            - name: DYNAMODB_ENDPOINT_URL
+              value: "{{ dynamodb_endpoint_url }}"
+            - name: DYNAMODB_CONVERSATIONS_TABLE_NAME
+              value: "{{ dynamodb_conversations_table }}"
+            - name: DYNAMODB_MESSAGES_TABLE_NAME
+              value: "{{ dynamodb_messages_table }}"
+            - name: DYNAMODB_DELETION_JOBS_TABLE_NAME
+              value: "{{ dynamodb_deletion_jobs_table }}"
+            - name: DYNAMODB_STATUS_TABLE_NAME
+              value: "{{ dynamodb_status_table }}"
+            - name: DYNAMODB_READ_CAPACITY_UNITS
+              value: "{{ dynamodb_read_capacity_units }}"
+            - name: DYNAMODB_WRITE_CAPACITY_UNITS
+              value: "{{ dynamodb_write_capacity_units }}"
+            - name: ENVIRONMENT
+              value: "{{ env }}"
+            - name: ROLE
+              value: "deletion-worker"
+            - name: SENTRY_DSN
+              value: "{{ sentry_dsn }}"
+            - name: SENTRY_ENVIRONMENT
+              value: "{{ env }}"
+            - name: SENTRY_SAMPLE_RATE
+              value: "{{ sentry_sample_rate }}"
+            - name: TTL_DAYS
+              value: "{{ ttl_days }}"
+          # The loop touches /tmp/deletion-worker-healthy each poll; restart the pod
+          # if it goes stale (wedged loop). Threshold is generous so a long single
+          # purge is not killed mid-flight — and a lease lets another worker resume.
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - >-
+                  test $(( $(date +%s) - $(stat -c %Y /tmp/deletion-worker-healthy) )) -lt 120
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            failureThreshold: 4
+      restartPolicy: Always
+      serviceAccountName: ai-assistant-service
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
