@@ -229,7 +229,7 @@ From `.github/workflows/main.yml` on every PR:
 1. Build Docker CI image
 2. `uv run ruff check . && uv run ruff format --check .`
 3. `uv run pytest` (full suite + coverage)
-4. Deploy PR preview (`deepcli deploy pr`)
+4. Deploy PR preview (internal deploy CLI)
 
 Locally, match CI before push:
 

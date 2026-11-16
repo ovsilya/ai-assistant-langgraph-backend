@@ -169,8 +169,8 @@ Config-DS organizes configuration in three levels:
 
 ```
 Client  (business unit — e.g. MediaCo)
-  └── Brand  (publication — e.g. Cosmopolitan)
-        └── Site  (edition — e.g. Cosmopolitan UK)
+  └── Brand  (publication — e.g. Meridian)
+        └── Site  (edition — e.g. Meridian UK)
 ```
 
 1. Register a new consumer: `POST /consumers → { "slug": "ai_assistant" }`  
@@ -195,7 +195,7 @@ The merged document returned to the service:
 
 | Field | Type | Notes |
 | ----- | ----- | ----- |
-| `persona_name` | string | Display name of the Assistant for this brand (e.g. `"Cosmo Assistant"`, `"Meridian Advisor"`) |
+| `persona_name` | string | Display name of the Assistant for this brand (e.g. `"Savora Kitchen Assistant"`, `"Meridian Advisor"`) |
 | `tone` | string | Editorial voice descriptor |
 | `system_prompt` | string | Full system prompt injected as `SystemMessage` at the start of every LLM invocation |
 | `response_length` | enum string | Response verbosity: `brief` (1–2 sentences), `standard` (short paragraph), `detailed` (multi-paragraph) |
@@ -272,7 +272,7 @@ Applied to every metric, following the Content Search API's `default_tags` patte
 | ----- | ----- | ----- |
 | `application` | `ai_assistant` | Service identifier |
 | `environment` | `staging` | `production` | Deployment environment |
-| `site_id` | `cosmopolitan_uk` | Brand/site for the request |
+| `site_id` | `brand_alpha_uk` | Brand/site for the request |
 | `auth_state` | `signed_in` | `anonymous` | Reader auth state |
 
 ---

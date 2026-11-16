@@ -748,8 +748,8 @@ Request:
   "user_id":         "member_id or anon_{uuid}",
   "message":         "What are the best winter skincare tips?",
   "conversation_id": null,
-  "site_id":         "cosmopolitan_uk",
-  "url":             "https://cosmopolitan.com/beauty/skincare-guide",
+  "site_id":         "brand_alpha_uk",
+  "url":             "https://www.meridian.example/beauty/skincare-guide",
   "content_id":      "00000000-0000-0000-0000-000000000002",
   "page_title":      "Winter Skincare Guide"
 }

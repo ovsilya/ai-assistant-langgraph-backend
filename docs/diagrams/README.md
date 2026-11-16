@@ -14,8 +14,8 @@ Evaluation concepts on the left; workflow evaluation, targets and metrics, two d
 
 <a href="png/evaluation-board.png"><img src="png/evaluation-board.png" width="720" alt="Evaluation board: datasets, evaluators, experiments and LangSmith tracing"></a>
 
-[Open the interactive version](ai-assistant-architecture.html)
+[Open the interactive version](https://ovsilya.github.io/ai-assistant-langgraph-backend/diagrams/ai-assistant-architecture.html)
 
 ---
 
-**Anonymized.** The publisher, its magazine brands and internal service names are replaced by generic names (Brand A / Brand B, config service, content search, site registry, CMS, AI gateway).
+**Anonymized.** The publisher, its magazine brands and internal service names are replaced by generic names (fictional brands such as Brand Alpha and Brand Beta, config service, content search, site registry, CMS, AI gateway).

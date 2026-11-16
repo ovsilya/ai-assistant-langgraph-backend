@@ -345,7 +345,7 @@ A log is a timestamped record of something that happened. In 2026, logs should b
   "timestamp": "2026-05-25T19:04:23Z",
   "level": "ERROR",
   "service": "ai-assistant-service",
-  "site_id": "cosmopolitan_uk",
+  "site_id": "brand_alpha_uk",
   "conversation_id": "conv_abc123",
   "event": "llm_timeout",
   "latency_ms": 30041,
@@ -353,7 +353,7 @@ A log is a timestamped record of something that happened. In 2026, logs should b
 }
 ```
 
-With structured logs you can query: "show me all LLM timeouts for Cosmopolitan UK in the last hour." With plain-text logs you cannot.
+With structured logs you can query: "show me all LLM timeouts for Meridian UK in the last hour." With plain-text logs you cannot.
 
 ### Metrics
 
@@ -426,11 +426,11 @@ A tag is a **key=value label** you attach to a metric, span, or log so you can f
 Without tags, a counter like `ai_assistant.error` is just a number. With tags it becomes something you can slice:
 
 ```
-ai_assistant.error  +1   error_source:concorde   site_id:cosmopolitan_uk   environment:production
+ai_assistant.error  +1   error_source:concorde   site_id:brand_alpha_uk   environment:production
 ai_assistant.error  +1   error_source:dynamodb   site_id:brand_alpha_us        environment:production
 ```
 
-Now in Datadog you can ask: "show me only the Content Search API errors for Cosmopolitan UK in production." Without tags, all errors look the same.
+Now in Datadog you can ask: "show me only the Content Search API errors for Meridian UK in production." Without tags, all errors look the same.
 
 ### Default tags in the Assistant
 
@@ -441,7 +441,7 @@ The following four tags are applied automatically to every single Datadog metric
 | ------------- | ------------------------------- | ------------------------------- |
 | `application` | `ai_assistant`                  | Identifies the service          |
 | `environment` | `production`, `staging`         | Separates prod from test data   |
-| `site_id`     | `cosmopolitan_uk`, `brand_alpha_us` | Breaks down metrics per brand   |
+| `site_id`     | `brand_alpha_uk`, `brand_alpha_us` | Breaks down metrics per brand   |
 | `auth_state`  | `signed_in`, `anonymous`        | Segments readers by login state |
 
 

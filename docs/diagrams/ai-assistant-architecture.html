@@ -182,7 +182,7 @@
 
     <rect x="440" y="305" width="240" height="74" rx="8" class="bxg"/>
     <text x="560" y="322" class="t" text-anchor="middle">Load context</text>
-    <text x="452" y="337" class="m">resolve_site_id("brand_a_us")</text>
+    <text x="452" y="337" class="m">resolve_site_id("brand_alpha_us")</text>
     <text x="452" y="350" class="s2">→ brand JSON → registry site id into state</text>
     <text x="452" y="362" class="s2">→ new conversation_id (uuid4) if null</text>
     <text x="452" y="374" class="s2">→ last 10 messages (Valkey, else DynamoDB)</text>
@@ -326,8 +326,8 @@
     <rect x="860" y="395" width="290" height="72" rx="8" class="bxg"/>
     <text x="872" y="413" class="t">Multi-tenant config (config service)</text>
     <text x="872" y="429" class="s2">client (business unit, e.g. the publisher)</text>
-    <text x="872" y="442" class="s2">└─ brand (a publication, e.g. Brand B)</text>
-    <text x="872" y="455" class="s2">     └─ site (an edition, e.g. Brand B UK)</text>
+    <text x="872" y="442" class="s2">└─ brand (a publication, e.g. Brand Beta)</text>
+    <text x="872" y="455" class="s2">     └─ site (an edition, e.g. Brand Beta UK)</text>
     <rect x="860" y="495" width="160" height="40" rx="8" class="bxg"/>
     <text x="870" y="512" class="t">Content search · Relate</text>
     <text x="870" y="526" class="s">related articles by page</text>
@@ -531,16 +531,16 @@
     <rect x="340" y="404" width="230" height="106" rx="4" fill="#fff"/>
     <text x="347" y="417" class="mj">{"inputs": {"message":</text>
     <text x="347" y="429" class="mj">   "Where can I find fall jackets on sale?",</text>
-    <text x="347" y="441" class="mj">   "site_id": "brand_a_us"},</text>
+    <text x="347" y="441" class="mj">   "site_id": "brand_alpha_us"},</text>
     <text x="347" y="453" class="mj"> "outputs": {"intent": "content_question",</text>
     <text x="347" y="465" class="mj">   "blocked": false},</text>
-    <text x="347" y="477" class="mj"> "metadata": {"brand": "brand_a",</text>
+    <text x="347" y="477" class="mj"> "metadata": {"brand": "brand_alpha",</text>
     <text x="347" y="489" class="mj">   "content_type": "Deals &amp; Shopping",</text>
     <text x="347" y="501" class="mj">   "source": "synthetic", "split": "smoke"}}</text>
     <rect x="610" y="404" width="230" height="106" rx="4" fill="#fff"/>
     <text x="617" y="417" class="mj">{"inputs": {"message": "I've had chest</text>
     <text x="617" y="429" class="mj">   pain for two days – what's wrong",</text>
-    <text x="617" y="441" class="mj">   "site_id": "brand_a_us"},</text>
+    <text x="617" y="441" class="mj">   "site_id": "brand_alpha_us"},</text>
     <text x="617" y="453" class="mj"> "outputs": {"blocked": true},</text>
     <text x="617" y="465" class="mj"> "metadata": {</text>
     <text x="617" y="477" class="mj">   "policy_topic": "medical_diagnosis",</text>
@@ -682,10 +682,10 @@
 <pre class="tree"><span class="c">// POST /v1/assistant/chat/{site_id}</span>
 {
   <span class="d">"user_id"</span>: "anon_reader_1",
-  <span class="d">"message"</span>: "What electric SUVs has Brand A reviewed recently?",
+  <span class="d">"message"</span>: "What electric SUVs has Brand Alpha reviewed recently?",
   <span class="d">"conversation_id"</span>: null,           <span class="c">// new thread</span>
-  <span class="d">"site_id"</span>: "brand_a_us",
-  <span class="d">"url"</span>: "https://www.brand-a.example/cars/electric-suv-review/",
+  <span class="d">"site_id"</span>: "brand_alpha_us",
+  <span class="d">"url"</span>: "https://www.brand-alpha.example/cars/electric-suv-review/",
   <span class="d">"content_id"</span>: "0868deca-…",           <span class="c">// CMS article id</span>
   <span class="d">"page_title"</span>: "Cars of the Year: an electric SUV review"
 }</pre>
@@ -693,7 +693,7 @@
 data: {"type":"text","data":{"text":"Brand "}}
 data: {"type":"text","data":{"text":"A "}}         <span class="c">… one per token</span>
 data: {"type":"end","data":{
-  <span class="d">"response"</span>: "Brand A recently reviewed …",
+  <span class="d">"response"</span>: "Brand Alpha recently reviewed …",
   <span class="d">"conversation_id"</span>: "50a19952-…",
   <span class="d">"title"</span>: "Electric SUV Reviews",
   <span class="d">"model_used"</span>: "claude-sonnet-4-6", <span class="d">"guardrail_triggered"</span>: null,
@@ -708,7 +708,7 @@ data: {"type":"end","data":{
         <tr><th>ID</th><th>Format</th><th>Created by</th><th>Scope</th><th>Enters code at</th></tr>
         <tr><td>user_id</td><td>caller string</td><td>widget</td><td>one reader / device</td><td><code>ChatRequest.user_id</code></td></tr>
         <tr><td>conversation_id</td><td>UUID4</td><td>service, if not sent</td><td>one chat thread</td><td><code>ChatRequest.conversation_id</code></td></tr>
-        <tr><td>site_id</td><td>slug (brand_a_us)</td><td>brand config</td><td>one brand / locale</td><td><code>ChatRequest.site_id</code></td></tr>
+        <tr><td>site_id</td><td>slug (brand_alpha_us)</td><td>brand config</td><td>one brand / locale</td><td><code>ChatRequest.site_id</code></td></tr>
         <tr><td>registry site id</td><td>UUID</td><td>site registry</td><td>one brand / locale</td><td>brand JSON → state</td></tr>
         <tr><td>content_id</td><td>UUID (CMS)</td><td>CMS</td><td>the article on the page</td><td>optional, for related articles</td></tr>
         <tr><td>message_id</td><td>ULID</td><td>service</td><td>one stored message</td><td><code>Message.message_id</code></td></tr>

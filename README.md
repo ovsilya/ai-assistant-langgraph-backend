@@ -38,7 +38,7 @@ flowchart TD
 
 ## Architecture diagrams
 
-The full phase 2 architecture and evaluation boards (SSE streaming, parallel follow-ups and output guardrail, LangSmith evaluation): previews and the interactive HTML version are in [`docs/diagrams/`](docs/diagrams/README.md).
+The full phase 2 architecture and evaluation boards (SSE streaming, parallel follow-ups and output guardrail, LangSmith evaluation): previews in [`docs/diagrams/`](docs/diagrams/README.md), interactive version on [GitHub Pages](https://ovsilya.github.io/ai-assistant-langgraph-backend/diagrams/ai-assistant-architecture.html).
 
 <a href="docs/diagrams/README.md"><img src="docs/diagrams/png/architecture-board.png" width="720" alt="Architecture board: frontend, LangGraph backend flow, data layer, observability, external services, deployment"></a>
 
