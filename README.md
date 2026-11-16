@@ -36,6 +36,12 @@ flowchart TD
 
 `query_index` and `get_related` execute **in parallel** (LangGraph fan-out/fan-in); both append to `state.articles` through a reducer before `generate_response` runs.
 
+## Architecture diagrams
+
+The full phase 2 architecture and evaluation boards (SSE streaming, parallel follow-ups and output guardrail, LangSmith evaluation): previews and the interactive HTML version are in [`docs/diagrams/`](docs/diagrams/README.md).
+
+<a href="docs/diagrams/README.md"><img src="docs/diagrams/png/architecture-board.png" width="720" alt="Architecture board: frontend, LangGraph backend flow, data layer, observability, external services, deployment"></a>
+
 ## Key engineering highlights
 
 - **304 unit/integration tests, ~95% line coverage** on the `ai_assistant` package (`pytest`, `pytest-asyncio`, heavy use of dependency-injected fakes; live-gateway tests isolated behind an `integration` marker).
@@ -65,6 +71,7 @@ config/
   brands/        # per-brand JSON personality + prompt configs
 tests/           # unit + integration suites, trajectory fixtures
 docs/            # architecture, observability, testing, schema references
+  diagrams/      # architecture + evaluation boards (HTML + PNG previews)
 k8s/             # deployment, service, ingress, deletion-worker manifests
 ```
 
