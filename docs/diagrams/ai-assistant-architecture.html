@@ -5,41 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Assistant Architecture</title>
 <style>
+  :root{--c128a7d:#128a7d;--c1f6fb2:#1f6fb2;--c2a2432:#2a2432;--c2e7d32:#2e7d32;--c4b286d:#4b286d;--c4f4a58:#4f4a58;--c5fb709:#5fb709;--c6b6675:#6b6675;--c6c4a9c:#6c4a9c;--c7a2f22:#7a2f22;--c8a8496:#8a8496;--c9791a3:#9791a3;--c9b85c4:#9b85c4;--cb06a00:#b06a00;--cbfe6df:#bfe6df;--cc0392b:#c0392b;--cc9c3d3:#c9c3d3;--ccfe0f2:#cfe0f2;--cdbf3ef:#dbf3ef;--cdcc9ee:#dcc9ee;--ce0b877:#e0b877;--ce2d4f4:#e2d4f4;--ce2ddec:#e2ddec;--ce4eff9:#e4eff9;--ceaf6d8:#eaf6d8;--ceef4fb:#eef4fb;--cefe7f7:#efe7f7;--cf0c9c3:#f0c9c3;--cf0edf5:#f0edf5;--cf2f0f6:#f2f0f6;--cf4f1f8:#f4f1f8;--cf6f3fa:#f6f3fa;--cf8f7fa:#f8f7fa;--cfaf7fd:#faf7fd;--cfaf9fc:#faf9fc;--cfbe6e3:#fbe6e3;--cfbeede:#fbeede;--cfbfafc:#fbfafc;--cfcfbfd:#fcfbfd;--cfff:#fff;--shadow:rgba(75,40,109,.12);}
   :root{
-    --purple:#4B286D; --purple2:#6C4A9C; --purple3:#9B85C4;
-    --green:#5FB709; --greenbg:#eaf6d8;
-    --teal:#128a7d; --tealbg:#dbf3ef;
-    --amber:#B06A00; --amberbg:#fbeede;
-    --red:#c0392b; --redbg:#fbe6e3;
-    --blue:#1f6fb2; --bluebg:#e4eff9;
-    --ink:#2A2432; --muted:#6b6675; --line:#e2ddec; --card:#fff; --bg:#f4f1f8;
+    --purple:var(--c4b286d); --purple2:var(--c6c4a9c); --purple3:var(--c9b85c4);
+    --green:var(--c5fb709); --greenbg:var(--ceaf6d8);
+    --teal:var(--c128a7d); --tealbg:var(--cdbf3ef);
+    --amber:var(--cb06a00); --amberbg:var(--cfbeede);
+    --red:var(--cc0392b); --redbg:var(--cfbe6e3);
+    --blue:var(--c1f6fb2); --bluebg:var(--ce4eff9);
+    --ink:var(--c2a2432); --muted:var(--c6b6675); --line:var(--ce2ddec); --card:var(--cfff); --bg:var(--cf4f1f8);
   }
   *{box-sizing:border-box;}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:20px;-webkit-font-smoothing:antialiased;}
-  .page{max-width:1240px;margin:0 auto;background:var(--card);border-radius:14px;box-shadow:0 8px 30px rgba(75,40,109,.12);padding:22px 26px 20px;}
+  .page{max-width:1240px;margin:0 auto;background:var(--card);border-radius:14px;box-shadow:0 8px 30px var(--shadow);padding:22px 26px 20px;}
   .brand{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple2);font-weight:700;}
   h1{font-size:21px;margin:3px 0 2px;color:var(--purple);}
   .cap{font-size:12px;color:var(--muted);margin:3px 0 4px;line-height:1.5;}
-  code{background:#f2f0f6;border-radius:4px;padding:1px 5px;font-size:10px;color:var(--purple);}
+  code{background:var(--cf2f0f6);border-radius:4px;padding:1px 5px;font-size:10px;color:var(--purple);}
   h2{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--purple2);margin:22px 0 9px;}
   .sub{font-size:10.5px;color:var(--muted);margin:-4px 0 8px;line-height:1.45;}
   .hdr{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 6px;}
-  .hdr span{font-size:10px;background:#f6f3fa;border:1px solid var(--line);border-radius:20px;padding:2px 9px;color:var(--muted);}
+  .hdr span{font-size:10px;background:var(--cf6f3fa);border:1px solid var(--line);border-radius:20px;padding:2px 9px;color:var(--muted);}
   .hdr b{color:var(--ink);}
-  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:7px 11px;background:#fcfbfd;}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:7px 11px;background:var(--cfcfbfd);}
   .legend i{display:inline-block;vertical-align:-2px;margin-right:5px;}
   .lg-line{width:22px;height:0;border-top:2px solid;}
   .lg-box{width:14px;height:11px;border-radius:3px;border:1px solid;}
-  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff;padding:8px;}
+  .lg-gen{background:#4B286D;border-color:#4B286D;}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--cfff);padding:8px;}
   .scroll svg{display:block;width:100%;min-width:1000px;height:auto;}
   .sv text{font-family:inherit;}
   .sv .t{font-size:11px;font-weight:700;fill:var(--ink);}
   .sv .tt{font-size:13px;font-weight:800;fill:var(--ink);}
   .sv .s{font-size:9.5px;fill:var(--muted);}
-  .sv .s2{font-size:9px;fill:#4f4a58;}
+  .sv .s2{font-size:9px;fill:var(--c4f4a58);}
   .sv .b{font-weight:700;fill:var(--ink);}
   .sv .m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;fill:var(--purple);}
-  .sv .mj{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:8.3px;fill:#7a2f22;}
+  .sv .mj{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:8.3px;fill:var(--c7a2f22);}
   .sv .w{fill:#fff;} .sv .w2{fill:#e2d4f4;font-size:9.5px;}
   .sv .h{font-size:9px;font-weight:800;letter-spacing:.08em;fill:var(--purple2);}
   .sv .lb{font-size:9px;fill:var(--muted);}
@@ -47,34 +49,126 @@
   .sv .la-t{font-size:9px;fill:var(--amber);font-weight:700;}
   .sv .fr{font-size:10.5px;font-weight:800;}
   .sv .big{font-size:20px;font-weight:800;fill:var(--purple);}
-  .bx{fill:#fff;stroke:var(--line);} .bxa{fill:var(--amberbg);stroke:#e0b877;} .bxp{fill:#efe7f7;stroke:#dcc9ee;}
-  .bxc{fill:var(--purple);stroke:none;} .bxr{fill:var(--redbg);stroke:#f0c9c3;} .bxt{fill:var(--tealbg);stroke:#bfe6df;}
-  .bxl{fill:#fbfafc;stroke:#c9c3d3;stroke-dasharray:4 3;} .bxg{fill:#f8f7fa;stroke:var(--line);}
+  .bx{fill:var(--cfff);stroke:var(--line);} .bxa{fill:var(--amberbg);stroke:var(--ce0b877);} .bxp{fill:var(--cefe7f7);stroke:var(--cdcc9ee);}
+  .bxc{fill:var(--purple);stroke:none;} .bxr{fill:var(--redbg);stroke:var(--cf0c9c3);} .bxt{fill:var(--tealbg);stroke:var(--cbfe6df);}
+  .bxl{fill:var(--cfbfafc);stroke:var(--cc9c3d3);stroke-dasharray:4 3;} .bxg{fill:var(--cf8f7fa);stroke:var(--line);}
   .ln{stroke:var(--purple);stroke-width:1.6;fill:none;} .lnb{stroke:var(--purple);stroke-width:2.6;fill:none;} .lp{stroke:var(--purple3);stroke-width:1.6;fill:none;}
-  .lgy{stroke:#9791a3;stroke-width:1.4;fill:none;stroke-dasharray:3 3;} .la{stroke:var(--amber);stroke-width:1.6;fill:none;}
+  .lgy{stroke:var(--c9791a3);stroke-width:1.4;fill:none;stroke-dasharray:3 3;} .la{stroke:var(--amber);stroke-width:1.6;fill:none;}
   .lr{stroke:var(--red);stroke-width:1.6;fill:none;}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;}
-  .panel{border-radius:10px;padding:10px 12px;font-size:11px;line-height:1.5;border:1px solid var(--line);background:#fff;}
+  .panel{border-radius:10px;padding:10px 12px;font-size:11px;line-height:1.5;border:1px solid var(--line);background:var(--cfff);}
   .panel h3{margin:0 0 6px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--purple2);}
   .panel ul{margin:0;padding-left:16px;} .panel li{margin:2px 0;}
   .panel p{margin:0 0 5px;}
-  .info{background:#eef4fb;border-color:#cfe0f2;} .info h3{color:var(--blue);}
-  .tint{background:#faf7fd;border-color:#dcc9ee;}
-  pre.tree{margin:0;font:10.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#faf9fc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;color:var(--ink);}
-  pre.tree .d{color:var(--purple);font-weight:700;} pre.tree .c{color:#8a8496;}
+  .info{background:var(--ceef4fb);border-color:var(--ccfe0f2);} .info h3{color:var(--blue);}
+  .tint{background:var(--cfaf7fd);border-color:var(--cdcc9ee);}
+  pre.tree{margin:0;font:10.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--cfaf9fc);border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;color:var(--ink);}
+  pre.tree .d{color:var(--purple);font-weight:700;} pre.tree .c{color:var(--c8a8496);}
   table{width:100%;border-collapse:collapse;font-size:10.5px;}
   th{text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding:5px 6px;}
-  td{border-bottom:1px solid #f0edf5;padding:5px 6px;vertical-align:top;line-height:1.4;}
+  td{border-bottom:1px solid var(--cf0edf5);padding:5px 6px;vertical-align:top;line-height:1.4;}
   td:first-child{font-weight:700;color:var(--purple);}
   .pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
-  .pp{position:relative;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:10.5px;line-height:1.45;background:#fff;}
+  .pp{position:relative;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:10.5px;line-height:1.45;background:var(--cfff);}
   .pp b{display:block;font-size:11.5px;color:var(--ink);margin-bottom:3px;}
-  .pp .n{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--purple);color:#fff;font-size:10px;font-weight:800;align-items:center;justify-content:center;margin-bottom:4px;}
+  .pp .n{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--purple);color:var(--cfff);font-size:10px;font-weight:800;align-items:center;justify-content:center;margin-bottom:4px;}
   .pp:not(:last-child)::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--purple3);font-size:16px;font-weight:800;}
-  .pp.rules{background:linear-gradient(135deg,#4B286D,#6C4A9C);border:none;color:#e9def7;} .pp.rules b{color:#fff;} .pp.rules .n{background:#fff;color:var(--purple);} .pp.rules code{background:rgba(255,255,255,.16);color:#fff;}
-  .src{margin-top:12px;font-size:9.5px;color:#9791a3;text-align:right;}
+  .pp.rules{background:linear-gradient(135deg,#4B286D,#6C4A9C);border:none;color:#e9def7;} .pp.rules b{color:#fff;} .pp.rules .n{background:#fff;color:#4B286D;} .pp.rules code{background:rgba(255,255,255,.16);color:#fff;}
+  .src{margin-top:12px;font-size:9.5px;color:var(--c9791a3);text-align:right;}
   @media screen and (max-width:900px){.two,.pipe{grid-template-columns:1fr;} .pp:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-20px;transform:none;}}
   @media print{body{background:#fff;padding:0;} .page{box-shadow:none;border-radius:0;max-width:none;} @page{size:landscape;margin:8mm;} .panel,tr,.scroll{break-inside:avoid;} h2{break-after:avoid;} .scroll svg{min-width:0;}}
+
+  /* dark theme: follows the system setting; force with <html data-theme="dark|light"> */
+  @media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]){--c128a7d:#5fd0c2;--c1f6fb2:#7fb8ea;--c2a2432:#ece8f2;--c2e7d32:#8fd18f;--c4b286d:#c4a8ea;--c4f4a58:#cfc8da;--c5fb709:#7fd13a;--c6b6675:#a9a2b6;--c6c4a9c:#b39ddb;--c7a2f22:#f0a090;--c8a8496:#a9a2b6;--c9791a3:#8a839a;--c9b85c4:#8c76b8;--cb06a00:#f0b45a;--cbfe6df:#245650;--cc0392b:#f08a7e;--cc9c3d3:#5a5268;--ccfe0f2:#2a4a68;--cdbf3ef:#12302c;--cdcc9ee:#4a3a68;--ce0b877:#6a5226;--ce2d4f4:#e2d4f4;--ce2ddec:#3a3348;--ce4eff9:#142638;--ceaf6d8:#1f2e14;--ceef4fb:#16202e;--cefe7f7:#2a2140;--cf0c9c3:#6a3a33;--cf0edf5:#2c2638;--cf2f0f6:#2c2638;--cf4f1f8:#141119;--cf6f3fa:#252030;--cf8f7fa:#252030;--cfaf7fd:#221c30;--cfaf9fc:#252030;--cfbe6e3:#3a1c18;--cfbeede:#33260f;--cfbfafc:#252030;--cfcfbfd:#252030;--cfff:#1e1a26;--shadow:rgba(0,0,0,.4);color-scheme:dark;}
+:root:not([data-theme="light"]) [fill="#1f6fb2" i]{fill:#7fb8ea} :root:not([data-theme="light"]) [stroke="#1f6fb2" i]{stroke:#7fb8ea}
+:root:not([data-theme="light"]) [fill="#2a2432" i]{fill:#ece8f2} :root:not([data-theme="light"]) [stroke="#2a2432" i]{stroke:#ece8f2}
+:root:not([data-theme="light"]) [fill="#4b286d" i]{fill:#c4a8ea} :root:not([data-theme="light"]) [stroke="#4b286d" i]{stroke:#c4a8ea}
+:root:not([data-theme="light"]) [fill="#5fb709" i]{fill:#7fd13a} :root:not([data-theme="light"]) [stroke="#5fb709" i]{stroke:#7fd13a}
+:root:not([data-theme="light"]) [fill="#6c4a9c" i]{fill:#b39ddb} :root:not([data-theme="light"]) [stroke="#6c4a9c" i]{stroke:#b39ddb}
+:root:not([data-theme="light"]) [fill="#6d86b8" i]{fill:#4f6fa8} :root:not([data-theme="light"]) [stroke="#6d86b8" i]{stroke:#4f6fa8}
+:root:not([data-theme="light"]) [fill="#9791a3" i]{fill:#8a839a} :root:not([data-theme="light"]) [stroke="#9791a3" i]{stroke:#8a839a}
+:root:not([data-theme="light"]) [fill="#9b85c4" i]{fill:#8c76b8} :root:not([data-theme="light"]) [stroke="#9b85c4" i]{stroke:#8c76b8}
+:root:not([data-theme="light"]) [fill="#a7b9dc" i]{fill:#2a4268} :root:not([data-theme="light"]) [stroke="#a7b9dc" i]{stroke:#2a4268}
+:root:not([data-theme="light"]) [fill="#b06a00" i]{fill:#f0b45a} :root:not([data-theme="light"]) [stroke="#b06a00" i]{stroke:#f0b45a}
+:root:not([data-theme="light"]) [fill="#b8c4da" i]{fill:#2f3b52} :root:not([data-theme="light"]) [stroke="#b8c4da" i]{stroke:#2f3b52}
+:root:not([data-theme="light"]) [fill="#b8dcc4" i]{fill:#2e4a36} :root:not([data-theme="light"]) [stroke="#b8dcc4" i]{stroke:#2e4a36}
+:root:not([data-theme="light"]) [fill="#b9d3ec" i]{fill:#2a4a68} :root:not([data-theme="light"]) [stroke="#b9d3ec" i]{stroke:#2a4a68}
+:root:not([data-theme="light"]) [fill="#bfe0bf" i]{fill:#2e4a36} :root:not([data-theme="light"]) [stroke="#bfe0bf" i]{stroke:#2e4a36}
+:root:not([data-theme="light"]) [fill="#c0392b" i]{fill:#f08a7e} :root:not([data-theme="light"]) [stroke="#c0392b" i]{stroke:#f08a7e}
+:root:not([data-theme="light"]) [fill="#cfc2e6" i]{fill:#43385a} :root:not([data-theme="light"]) [stroke="#cfc2e6" i]{stroke:#43385a}
+:root:not([data-theme="light"]) [fill="#cfc8dc" i]{fill:#4a4258} :root:not([data-theme="light"]) [stroke="#cfc8dc" i]{stroke:#4a4258}
+:root:not([data-theme="light"]) [fill="#d6e3f3" i]{fill:#1d3048} :root:not([data-theme="light"]) [stroke="#d6e3f3" i]{stroke:#1d3048}
+:root:not([data-theme="light"]) [fill="#e0b877" i]{fill:#6a5226} :root:not([data-theme="light"]) [stroke="#e0b877" i]{stroke:#6a5226}
+:root:not([data-theme="light"]) [fill="#e0d3b0" i]{fill:#4d4330} :root:not([data-theme="light"]) [stroke="#e0d3b0" i]{stroke:#4d4330}
+:root:not([data-theme="light"]) [fill="#e2c0a2" i]{fill:#57412f} :root:not([data-theme="light"]) [stroke="#e2c0a2" i]{stroke:#57412f}
+:root:not([data-theme="light"]) [fill="#e2cdb6" i]{fill:#4d3f30} :root:not([data-theme="light"]) [stroke="#e2cdb6" i]{stroke:#4d3f30}
+:root:not([data-theme="light"]) [fill="#e2ddec" i]{fill:#3a3348} :root:not([data-theme="light"]) [stroke="#e2ddec" i]{stroke:#3a3348}
+:root:not([data-theme="light"]) [fill="#e3e8f1" i]{fill:#1a2130} :root:not([data-theme="light"]) [stroke="#e3e8f1" i]{stroke:#1a2130}
+:root:not([data-theme="light"]) [fill="#e3efe6" i]{fill:#17261c} :root:not([data-theme="light"]) [stroke="#e3efe6" i]{stroke:#17261c}
+:root:not([data-theme="light"]) [fill="#e6f3ea" i]{fill:#17261c} :root:not([data-theme="light"]) [stroke="#e6f3ea" i]{stroke:#17261c}
+:root:not([data-theme="light"]) [fill="#e9c39d" i]{fill:#5d4520} :root:not([data-theme="light"]) [stroke="#e9c39d" i]{stroke:#5d4520}
+:root:not([data-theme="light"]) [fill="#e9f1fb" i]{fill:#142638} :root:not([data-theme="light"]) [stroke="#e9f1fb" i]{stroke:#142638}
+:root:not([data-theme="light"]) [fill="#e9f6e9" i]{fill:#17261c} :root:not([data-theme="light"]) [stroke="#e9f6e9" i]{stroke:#17261c}
+:root:not([data-theme="light"]) [fill="#eef4fb" i]{fill:#16202e} :root:not([data-theme="light"]) [stroke="#eef4fb" i]{stroke:#16202e}
+:root:not([data-theme="light"]) [fill="#efc996" i]{fill:#5d4520} :root:not([data-theme="light"]) [stroke="#efc996" i]{stroke:#5d4520}
+:root:not([data-theme="light"]) [fill="#efe9f8" i]{fill:#221c30} :root:not([data-theme="light"]) [stroke="#efe9f8" i]{stroke:#221c30}
+:root:not([data-theme="light"]) [fill="#f0c9c3" i]{fill:#6a3a33} :root:not([data-theme="light"]) [stroke="#f0c9c3" i]{stroke:#6a3a33}
+:root:not([data-theme="light"]) [fill="#f5ece3" i]{fill:#29221c} :root:not([data-theme="light"]) [stroke="#f5ece3" i]{stroke:#29221c}
+:root:not([data-theme="light"]) [fill="#f6e3d3" i]{fill:#2e2219} :root:not([data-theme="light"]) [stroke="#f6e3d3" i]{stroke:#2e2219}
+:root:not([data-theme="light"]) [fill="#f6f0e2" i]{fill:#29231a} :root:not([data-theme="light"]) [stroke="#f6f0e2" i]{stroke:#29231a}
+:root:not([data-theme="light"]) [fill="#fbe8d6" i]{fill:#2e2114} :root:not([data-theme="light"]) [stroke="#fbe8d6" i]{stroke:#2e2114}
+:root:not([data-theme="light"]) [fill="#fbecec" i]{fill:#351c1c} :root:not([data-theme="light"]) [stroke="#fbecec" i]{stroke:#351c1c}
+:root:not([data-theme="light"]) [fill="#fdf1e2" i]{fill:#2e2312} :root:not([data-theme="light"]) [stroke="#fdf1e2" i]{stroke:#2e2312}
+:root:not([data-theme="light"]) [fill="#fdf3dc" i]{fill:#2b2210} :root:not([data-theme="light"]) [stroke="#fdf3dc" i]{stroke:#2b2210}
+:root:not([data-theme="light"]) [fill="#ffd8ab" i]{fill:#4a3418} :root:not([data-theme="light"]) [stroke="#ffd8ab" i]{stroke:#4a3418}
+:root:not([data-theme="light"]) [fill="#fff" i]{fill:#1e1a26} :root:not([data-theme="light"]) [stroke="#fff" i]{stroke:#1e1a26}
+:root:not([data-theme="light"]) .bxc{fill:#4f2f7a} :root:not([data-theme="light"]) .lg-gen{background:#4f2f7a;border-color:#4f2f7a} :root:not([data-theme="light"]) .sv .w{fill:#fff}
+  }
+:root[data-theme="dark"]{--c128a7d:#5fd0c2;--c1f6fb2:#7fb8ea;--c2a2432:#ece8f2;--c2e7d32:#8fd18f;--c4b286d:#c4a8ea;--c4f4a58:#cfc8da;--c5fb709:#7fd13a;--c6b6675:#a9a2b6;--c6c4a9c:#b39ddb;--c7a2f22:#f0a090;--c8a8496:#a9a2b6;--c9791a3:#8a839a;--c9b85c4:#8c76b8;--cb06a00:#f0b45a;--cbfe6df:#245650;--cc0392b:#f08a7e;--cc9c3d3:#5a5268;--ccfe0f2:#2a4a68;--cdbf3ef:#12302c;--cdcc9ee:#4a3a68;--ce0b877:#6a5226;--ce2d4f4:#e2d4f4;--ce2ddec:#3a3348;--ce4eff9:#142638;--ceaf6d8:#1f2e14;--ceef4fb:#16202e;--cefe7f7:#2a2140;--cf0c9c3:#6a3a33;--cf0edf5:#2c2638;--cf2f0f6:#2c2638;--cf4f1f8:#141119;--cf6f3fa:#252030;--cf8f7fa:#252030;--cfaf7fd:#221c30;--cfaf9fc:#252030;--cfbe6e3:#3a1c18;--cfbeede:#33260f;--cfbfafc:#252030;--cfcfbfd:#252030;--cfff:#1e1a26;--shadow:rgba(0,0,0,.4);color-scheme:dark;}
+:root[data-theme="dark"] [fill="#1f6fb2" i]{fill:#7fb8ea} :root[data-theme="dark"] [stroke="#1f6fb2" i]{stroke:#7fb8ea}
+:root[data-theme="dark"] [fill="#2a2432" i]{fill:#ece8f2} :root[data-theme="dark"] [stroke="#2a2432" i]{stroke:#ece8f2}
+:root[data-theme="dark"] [fill="#4b286d" i]{fill:#c4a8ea} :root[data-theme="dark"] [stroke="#4b286d" i]{stroke:#c4a8ea}
+:root[data-theme="dark"] [fill="#5fb709" i]{fill:#7fd13a} :root[data-theme="dark"] [stroke="#5fb709" i]{stroke:#7fd13a}
+:root[data-theme="dark"] [fill="#6c4a9c" i]{fill:#b39ddb} :root[data-theme="dark"] [stroke="#6c4a9c" i]{stroke:#b39ddb}
+:root[data-theme="dark"] [fill="#6d86b8" i]{fill:#4f6fa8} :root[data-theme="dark"] [stroke="#6d86b8" i]{stroke:#4f6fa8}
+:root[data-theme="dark"] [fill="#9791a3" i]{fill:#8a839a} :root[data-theme="dark"] [stroke="#9791a3" i]{stroke:#8a839a}
+:root[data-theme="dark"] [fill="#9b85c4" i]{fill:#8c76b8} :root[data-theme="dark"] [stroke="#9b85c4" i]{stroke:#8c76b8}
+:root[data-theme="dark"] [fill="#a7b9dc" i]{fill:#2a4268} :root[data-theme="dark"] [stroke="#a7b9dc" i]{stroke:#2a4268}
+:root[data-theme="dark"] [fill="#b06a00" i]{fill:#f0b45a} :root[data-theme="dark"] [stroke="#b06a00" i]{stroke:#f0b45a}
+:root[data-theme="dark"] [fill="#b8c4da" i]{fill:#2f3b52} :root[data-theme="dark"] [stroke="#b8c4da" i]{stroke:#2f3b52}
+:root[data-theme="dark"] [fill="#b8dcc4" i]{fill:#2e4a36} :root[data-theme="dark"] [stroke="#b8dcc4" i]{stroke:#2e4a36}
+:root[data-theme="dark"] [fill="#b9d3ec" i]{fill:#2a4a68} :root[data-theme="dark"] [stroke="#b9d3ec" i]{stroke:#2a4a68}
+:root[data-theme="dark"] [fill="#bfe0bf" i]{fill:#2e4a36} :root[data-theme="dark"] [stroke="#bfe0bf" i]{stroke:#2e4a36}
+:root[data-theme="dark"] [fill="#c0392b" i]{fill:#f08a7e} :root[data-theme="dark"] [stroke="#c0392b" i]{stroke:#f08a7e}
+:root[data-theme="dark"] [fill="#cfc2e6" i]{fill:#43385a} :root[data-theme="dark"] [stroke="#cfc2e6" i]{stroke:#43385a}
+:root[data-theme="dark"] [fill="#cfc8dc" i]{fill:#4a4258} :root[data-theme="dark"] [stroke="#cfc8dc" i]{stroke:#4a4258}
+:root[data-theme="dark"] [fill="#d6e3f3" i]{fill:#1d3048} :root[data-theme="dark"] [stroke="#d6e3f3" i]{stroke:#1d3048}
+:root[data-theme="dark"] [fill="#e0b877" i]{fill:#6a5226} :root[data-theme="dark"] [stroke="#e0b877" i]{stroke:#6a5226}
+:root[data-theme="dark"] [fill="#e0d3b0" i]{fill:#4d4330} :root[data-theme="dark"] [stroke="#e0d3b0" i]{stroke:#4d4330}
+:root[data-theme="dark"] [fill="#e2c0a2" i]{fill:#57412f} :root[data-theme="dark"] [stroke="#e2c0a2" i]{stroke:#57412f}
+:root[data-theme="dark"] [fill="#e2cdb6" i]{fill:#4d3f30} :root[data-theme="dark"] [stroke="#e2cdb6" i]{stroke:#4d3f30}
+:root[data-theme="dark"] [fill="#e2ddec" i]{fill:#3a3348} :root[data-theme="dark"] [stroke="#e2ddec" i]{stroke:#3a3348}
+:root[data-theme="dark"] [fill="#e3e8f1" i]{fill:#1a2130} :root[data-theme="dark"] [stroke="#e3e8f1" i]{stroke:#1a2130}
+:root[data-theme="dark"] [fill="#e3efe6" i]{fill:#17261c} :root[data-theme="dark"] [stroke="#e3efe6" i]{stroke:#17261c}
+:root[data-theme="dark"] [fill="#e6f3ea" i]{fill:#17261c} :root[data-theme="dark"] [stroke="#e6f3ea" i]{stroke:#17261c}
+:root[data-theme="dark"] [fill="#e9c39d" i]{fill:#5d4520} :root[data-theme="dark"] [stroke="#e9c39d" i]{stroke:#5d4520}
+:root[data-theme="dark"] [fill="#e9f1fb" i]{fill:#142638} :root[data-theme="dark"] [stroke="#e9f1fb" i]{stroke:#142638}
+:root[data-theme="dark"] [fill="#e9f6e9" i]{fill:#17261c} :root[data-theme="dark"] [stroke="#e9f6e9" i]{stroke:#17261c}
+:root[data-theme="dark"] [fill="#eef4fb" i]{fill:#16202e} :root[data-theme="dark"] [stroke="#eef4fb" i]{stroke:#16202e}
+:root[data-theme="dark"] [fill="#efc996" i]{fill:#5d4520} :root[data-theme="dark"] [stroke="#efc996" i]{stroke:#5d4520}
+:root[data-theme="dark"] [fill="#efe9f8" i]{fill:#221c30} :root[data-theme="dark"] [stroke="#efe9f8" i]{stroke:#221c30}
+:root[data-theme="dark"] [fill="#f0c9c3" i]{fill:#6a3a33} :root[data-theme="dark"] [stroke="#f0c9c3" i]{stroke:#6a3a33}
+:root[data-theme="dark"] [fill="#f5ece3" i]{fill:#29221c} :root[data-theme="dark"] [stroke="#f5ece3" i]{stroke:#29221c}
+:root[data-theme="dark"] [fill="#f6e3d3" i]{fill:#2e2219} :root[data-theme="dark"] [stroke="#f6e3d3" i]{stroke:#2e2219}
+:root[data-theme="dark"] [fill="#f6f0e2" i]{fill:#29231a} :root[data-theme="dark"] [stroke="#f6f0e2" i]{stroke:#29231a}
+:root[data-theme="dark"] [fill="#fbe8d6" i]{fill:#2e2114} :root[data-theme="dark"] [stroke="#fbe8d6" i]{stroke:#2e2114}
+:root[data-theme="dark"] [fill="#fbecec" i]{fill:#351c1c} :root[data-theme="dark"] [stroke="#fbecec" i]{stroke:#351c1c}
+:root[data-theme="dark"] [fill="#fdf1e2" i]{fill:#2e2312} :root[data-theme="dark"] [stroke="#fdf1e2" i]{stroke:#2e2312}
+:root[data-theme="dark"] [fill="#fdf3dc" i]{fill:#2b2210} :root[data-theme="dark"] [stroke="#fdf3dc" i]{stroke:#2b2210}
+:root[data-theme="dark"] [fill="#ffd8ab" i]{fill:#4a3418} :root[data-theme="dark"] [stroke="#ffd8ab" i]{stroke:#4a3418}
+:root[data-theme="dark"] [fill="#fff" i]{fill:#1e1a26} :root[data-theme="dark"] [stroke="#fff" i]{stroke:#1e1a26}
+:root[data-theme="dark"] .bxc{fill:#4f2f7a} :root[data-theme="dark"] .lg-gen{background:#4f2f7a;border-color:#4f2f7a} :root[data-theme="dark"] .sv .w{fill:#fff}
 </style>
 </head>
 <body>
@@ -91,13 +185,13 @@
   </div>
   <div class="legend">
     <span><i class="lg-line" style="border-color:var(--purple)"></i>flow / request</span>
-    <span><i class="lg-line" style="border-color:#9791a3;border-top-style:dashed"></i>call to a service or store</span>
+    <span><i class="lg-line" style="border-color:var(--c9791a3);border-top-style:dashed"></i>call to a service or store</span>
     <span><i class="lg-line" style="border-color:var(--red)"></i>blocked / fallback path</span>
     <span><i class="lg-line" style="border-color:var(--amber)"></i>retry / deploy / feedback loop</span>
-    <span><i class="lg-box" style="background:var(--tealbg);border-color:#bfe6df"></i>UI / output</span>
-    <span><i class="lg-box" style="background:#efe7f7;border-color:#dcc9ee"></i>LLM step</span>
-    <span><i class="lg-box" style="background:var(--purple);border-color:var(--purple)"></i>main generation</span>
-    <span><i class="lg-box" style="background:var(--amberbg);border-color:#e0b877"></i>guardrail</span>
+    <span><i class="lg-box" style="background:var(--tealbg);border-color:var(--cbfe6df)"></i>UI / output</span>
+    <span><i class="lg-box" style="background:var(--cefe7f7);border-color:var(--cdcc9ee)"></i>LLM step</span>
+    <span><i class="lg-box lg-gen"></i>main generation</span>
+    <span><i class="lg-box" style="background:var(--amberbg);border-color:var(--ce0b877)"></i>guardrail</span>
   </div>
 
   <!-- ============ 1 ============ -->
@@ -136,7 +230,7 @@
     <text x="565" y="108" class="m" text-anchor="middle">GA4 telemetry</text>
     <line x1="545" y1="120" x2="545" y2="198" class="lnb" marker-end="url(#mp)"/>
     <line x1="585" y1="198" x2="585" y2="122" class="lp" marker-end="url(#ml)"/>
-    <text x="595" y="146" class="lb"><tspan class="b" style="fill:#4f4a58">POST</tspan> to the chat endpoint;</text>
+    <text x="595" y="146" class="lb"><tspan class="b" style="fill:var(--c4f4a58)">POST</tspan> to the chat endpoint;</text>
     <text x="595" y="158" class="lb">FastAPI routes it to the handler</text>
     <text x="595" y="174" class="lb">answer streams back (SSE)</text>
 
@@ -216,7 +310,7 @@
 
     <rect x="440" y="660" width="240" height="100" rx="8" class="bxc"/>
     <text x="560" y="678" class="t w" text-anchor="middle">Generate response</text>
-    <text x="560" y="692" class="m" style="fill:#e2d4f4" text-anchor="middle">Sonnet via the AI gateway</text>
+    <text x="560" y="692" class="m" style="fill:var(--ce2d4f4)" text-anchor="middle">Sonnet via the AI gateway</text>
     <text x="452" y="708" class="w2">• system_prompt + brand context</text>
     <text x="452" y="721" class="w2">• related + query_index articles</text>
     <text x="452" y="734" class="w2">• current article body · last N messages</text>
@@ -358,8 +452,8 @@
     <text x="332" y="1101" class="s2"><tspan class="b">Thread:</tspan> many traces in one conversation</text>
     <text x="332" y="1117" class="s2">Capture prompt-response pairs, multi-turn</text>
     <text x="332" y="1130" class="s2">context, the trajectory and intermediate steps.</text>
-    <text x="332" y="1150" class="s2 b" style="fill:#4B286D">→ traced in LangSmith; traces feed the</text>
-    <text x="332" y="1163" class="s2 b" style="fill:#4B286D">evaluation board (section 2)</text>
+    <text x="332" y="1150" class="s2 b" style="fill:var(--c4b286d)">→ traced in LangSmith; traces feed the</text>
+    <text x="332" y="1163" class="s2 b" style="fill:var(--c4b286d)">evaluation board (section 2)</text>
     <line x1="470" y1="1015" x2="470" y2="1038" class="lnb" marker-end="url(#mp)"/>
 
     <rect x="640" y="1040" width="530" height="135" rx="10" fill="#f6f0e2" stroke="#e0d3b0"/>
@@ -459,20 +553,20 @@
     <rect x="10" y="785" width="280" height="325" rx="10" fill="#fff" stroke="#e2ddec"/>
     <text x="150" y="805" class="tt" text-anchor="middle">Four parts of an evaluation</text>
     <rect x="20" y="816" width="260" height="58" rx="6" fill="#e9f1fb" stroke="#b9d3ec"/>
-    <text x="28" y="832" class="s2 b" style="fill:#1f6fb2">(1) Dataset</text>
+    <text x="28" y="832" class="s2 b" style="fill:var(--c1f6fb2)">(1) Dataset</text>
     <text x="28" y="846" class="s2">developer-curated · from user logs and</text>
     <text x="28" y="858" class="s2">feedback · LLM-generated (synthetic)</text>
     <rect x="20" y="880" width="260" height="70" rx="6" fill="#e9f6e9" stroke="#bfe0bf"/>
-    <text x="28" y="896" class="s2 b" style="fill:#2e7d32">(2) Evaluator</text>
+    <text x="28" y="896" class="s2 b" style="fill:var(--c2e7d32)">(2) Evaluator</text>
     <text x="28" y="910" class="s2">judges: LLM-as-judge · heuristics (code) · human</text>
     <text x="28" y="922" class="s2">modes: pairwise comparison · reference-free</text>
     <text x="28" y="934" class="s2">(against criteria) · ground truth</text>
     <rect x="20" y="956" width="260" height="58" rx="6" fill="#fbecec" stroke="#f0c9c3"/>
-    <text x="28" y="972" class="s2 b" style="fill:#c0392b">(3) Task</text>
+    <text x="28" y="972" class="s2 b" style="fill:var(--cc0392b)">(3) Task</text>
     <text x="28" y="986" class="s2">RAG Q&amp;A · chat · code generation · agent task</text>
     <text x="28" y="998" class="s2">completion · content generation</text>
     <rect x="20" y="1020" width="260" height="82" rx="6" fill="#fdf1e2" stroke="#efc996"/>
-    <text x="28" y="1036" class="s2 b" style="fill:#B06A00">(4) Applying evals</text>
+    <text x="28" y="1036" class="s2 b" style="fill:var(--cb06a00)">(4) Applying evals</text>
     <text x="28" y="1050" class="s2">unit tests: online (at inference) · offline (in CI)</text>
     <text x="28" y="1063" class="s2">evaluation: human or LLM-judge feedback</text>
     <text x="28" y="1076" class="s2">A/B testing: regression (runs over time on a</text>
@@ -518,10 +612,10 @@
     <line x1="796" y1="312" x2="796" y2="271" class="ln" marker-end="url(#mp3)"/>
     <rect x="340" y="312" width="230" height="36" rx="4" fill="#a7b9dc" stroke="#6d86b8"/>
     <text x="455" y="327" class="t" text-anchor="middle">Dataset 1</text>
-    <text x="455" y="341" class="s2" text-anchor="middle" style="fill:#2A2432">"intent-routing" · 72 examples</text>
+    <text x="455" y="341" class="s2" text-anchor="middle" style="fill:var(--c2a2432)">"intent-routing" · 72 examples</text>
     <rect x="610" y="312" width="230" height="36" rx="4" fill="#a7b9dc" stroke="#6d86b8"/>
     <text x="725" y="327" class="t" text-anchor="middle">Dataset 2</text>
-    <text x="725" y="341" class="s2" text-anchor="middle" style="fill:#2A2432">"safety-blocked" · 48 examples</text>
+    <text x="725" y="341" class="s2" text-anchor="middle" style="fill:var(--c2a2432)">"safety-blocked" · 48 examples</text>
     <text x="342" y="366" class="m">content_question</text><text x="450" y="366" class="s2 b">40</text><text x="470" y="366" class="s2">synthetic (20 real titles ×2)</text>
     <text x="342" y="380" class="m">off_topic</text><text x="450" y="380" class="s2 b">20</text><text x="470" y="380" class="s2">curated</text>
     <text x="342" y="394" class="m">small_talk</text><text x="450" y="394" class="s2 b">12</text><text x="470" y="394" class="s2">curated</text>
@@ -604,7 +698,7 @@
     <text x="344" y="1054" class="s2">evaluators: 7–14 (4 LLM-judge + 4 code) · no labels needed</text>
     <text x="344" y="1067" class="s2">answer_relevance 1.00 · citation_validity 1.00</text>
     <text x="344" y="1080" class="s2">followups_format 0.86 · 72 / 72 runs</text>
-    <text x="836" y="1046" class="big" text-anchor="end" style="fill:#B06A00">0.39</text>
+    <text x="836" y="1046" class="big" text-anchor="end" style="fill:var(--cb06a00)">0.39</text>
     <text x="836" y="1062" class="s" text-anchor="end">brand_voice:</text>
     <text x="836" y="1074" class="s" text-anchor="end">the lowest score</text>
 
