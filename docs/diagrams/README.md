@@ -7,12 +7,12 @@ These diagrams show the **target design** for this backend. Beyond the code in t
 ### Architecture board
 The widget on top, the LangGraph backend flow in the middle, the data layer and observability on the left, graph state and external services (config, content search, AI gateway) on the right, agent observability and deployment at the bottom
 
-<a href="png/architecture-board.png"><img src="png/architecture-board.png" width="720" alt="Architecture board: frontend, LangGraph backend flow, data layer, observability, graph state, external services, deployment"></a>
+<a href="png/architecture-board-dark.png"><img src="png/architecture-board-dark.png" width="720" alt="Architecture board: frontend, LangGraph backend flow, data layer, observability, graph state, external services, deployment"></a>
 
 ### Evaluation board
 Evaluation concepts on the left; workflow evaluation, targets and metrics, two datasets, 14 evaluators and 3 experiments in the middle; LangSmith tracing and scores on the right, with loops from traces and failing cases back into the datasets
 
-<a href="png/evaluation-board.png"><img src="png/evaluation-board.png" width="720" alt="Evaluation board: datasets, evaluators, experiments and LangSmith tracing"></a>
+<a href="png/evaluation-board-dark.png"><img src="png/evaluation-board-dark.png" width="720" alt="Evaluation board: datasets, evaluators, experiments and LangSmith tracing"></a>
 
 [Open the interactive version](https://ovsilya.github.io/ai-assistant-langgraph-backend/diagrams/ai-assistant-architecture.html)
 
