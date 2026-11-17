@@ -2,7 +2,7 @@
 
 Click a preview for the full-size image. The interactive HTML version has both boards plus the API contract, data model, Datadog metrics, deployment pipeline and design choices.
 
-These diagrams show the **phase 2 design**. It builds on the code in this repository and adds SSE token streaming, follow-up suggestions running in parallel with the output guardrail, and a LangSmith evaluation suite.
+These diagrams show the **target design** for this backend. Beyond the code in this repository they add SSE token streaming, follow-up suggestions running in parallel with the output guardrail, and a LangSmith evaluation suite.
 
 ### Architecture board
 The widget on top, the LangGraph backend flow in the middle, the data layer and observability on the left, graph state and external services (config, content search, AI gateway) on the right, agent observability and deployment at the bottom
