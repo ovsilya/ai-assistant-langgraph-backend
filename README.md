@@ -13,29 +13,6 @@ A production FastAPI + LangGraph backend for an on-page conversational assistant
 - **Streaming-ready** — the graph terminates in a `stream_output` node; the API currently returns full JSON synchronously with token streaming as the designed next step.
 - **Observability** — Datadog APM/metrics and Sentry, with an LLM-telemetry design documented in `docs/OBSERVABILITY_GUIDE.md`.
 
-## Agent graph
-
-```mermaid
-flowchart TD
-    START([START]) --> LC[load_context<br/>brand personality + chat history]
-    LC --> IG[input_guardrail<br/>LLM: block check + intent + coreference resolution]
-    IG -- blocked --> BF[build_fallback<br/>safe static reply]
-    IG -- small_talk / off_topic --> GR[generate_response<br/>main LLM, grounded in articles]
-    IG -- content_question --> QI[query_index<br/>semantic content search]
-    IG -- content_question --> GRel[get_related<br/>related articles by page]
-    QI --> GR
-    GRel --> GR
-    GR --> OG[output_guardrail<br/>LLM judge: grounding, language, hallucination]
-    OG --> AR{assemble_response}
-    AR -- pass --> SO[stream_output]
-    AR -- "fail, retry &lt; 1<br/>(adds corrective context)" --> GR
-    AR -- "fail, retry = 1" --> BF
-    BF --> SO
-    SO --> END([END])
-```
-
-`query_index` and `get_related` execute **in parallel** (LangGraph fan-out/fan-in); both append to `state.articles` through a reducer before `generate_response` runs.
-
 ## Architecture diagrams
 
 The full phase 2 architecture and evaluation boards (SSE streaming, parallel follow-ups and output guardrail, LangSmith evaluation): previews in [`docs/diagrams/`](docs/diagrams/README.md), interactive version on [GitHub Pages](https://ovsilya.github.io/ai-assistant-langgraph-backend/diagrams/ai-assistant-architecture.html).
